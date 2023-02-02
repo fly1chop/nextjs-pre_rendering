@@ -31,6 +31,11 @@ export async function getStaticProps(context) {
 
   const product = data.products.find((product) => product.id === productId);
 
+  // // If getStaticPaths doesn't return params -> need fallback for when no product
+  if (!product) {
+    return { notFound: true };
+  }
+
   return {
     props: {
       product,
@@ -46,7 +51,7 @@ export async function getStaticPaths() {
   }));
   return {
     paths: pathsWithParams,
-    fallback: 'blocking',
+    fallback: 'blocking', // false, true, 'blocking'
   };
 }
 
